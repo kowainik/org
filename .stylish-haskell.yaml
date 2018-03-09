@@ -1,4 +1,5 @@
-# Default stylish-haskell configuration file in Serokell.
+# Default stylish-haskell configuration file in Kowainik.
+# Copied from serokell/serokell-util repository at 2018-03-09T15:00:00Z
 # It's based on default config provided by `stylish-haskell --defaults` but has some changes
 # ==================================
 

@@ -1,10 +1,10 @@
 # org
 
 This repository contains company-wide guidelines on writing code and organizing
-workflow. If Kowainik member don't know how some part of his/her work should be
-he/she should refer to this guide. If some part of workflow is not clear from
-this document — open issue to this repository. But, of course, everyone should
-read this README first.
+workflow. If Kowainik member doesn't know how some part of his/her work should
+be done he/she should refer to this guide. If some part of the workflow is not
+clear from this document — feel free to open an issue to this repository. But, of course,
+everyone should read this README first.
 
 ## Workflow
 
@@ -16,12 +16,14 @@ Git version control system based on GitHub is used.
 
 #### Issues and branches
 
-1. Work should be done under issue. If such issue doesn't exist: create it.
-2. Always discuss work under issue before doing this issue. If you see multiple
-   ways to do something — discuss with somebody under issue comments section how
-   to do this. If you're not sure that there's only one way to do the thing —
-   discuss with somebody under issue comments section how to do this. In perfect
-   case scenario each issue should contain some plan how to do this issue.
+1. Work should be done under corresponding GitHub issue.
+   If such issue doesn't exist: create it.
+2. Always discuss work under corresponding GitHub issue before doing this issue.
+   If you see multiple ways to do something — discuss with somebody under issue
+   comments section how to do this. If you're not sure that there's only one way
+   to do the thing — discuss with somebody under issue comments section how to
+   do this. In perfect case scenario each issue should contain some plan how to
+   do this issue.
 3. `master` branch should be stable, always compilable and working.
 4. Do your work for some issue under separate branch forked from `master` branch.
 5. Name your branch as `username/issueId-short-description`. For example: `chshersh/1-describe-workflow`.
@@ -33,8 +35,9 @@ Git version control system based on GitHub is used.
 #### Pull requests
 
 1. Open PR if you:
-   * Finished
-   * Want to share work with others
+   * Finished your work on the issue
+   * Want to share work with others (for example you can open PR if you need
+     somebody to look and to get advice for continue working on it)
 2. Add `wip` label to your PR if work is not finished.
 3. Add issue number at the title of PR in square brackets (just like in commit messages).
 4. Request review from at least two people in team.
@@ -48,6 +51,7 @@ Git version control system based on GitHub is used.
 2. Every project should contain the following files in addition to code:
    * README.md
    * CHANGES.md
+   * CONTRIBUTING.md
    * `.stylish-haskell.yaml`
    * `.travis.yml`
 3. Use PVP versioning for projects.
