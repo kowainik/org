@@ -25,13 +25,13 @@ different useful applications.
 Below is set of general rules for communication in slack:
 
 1. **NO PRIVATE CHANNELS.**
-2. **Project-based discussion.** Every repository `kowainik/<repo>` should have two channels in Slack:
-   1. #<repo>
-   2. #<repo>-apps
+2. **Project-based discussion.** Every repository `kowainik/repo` should have two channels in Slack:
+   1. #repo
+   2. #repo-apps
 
    If you want to add GitHub integration for this repo you need to type the following command in #repo-apps channel
    ```
-   /github subscribe kowainik/<repo> reviews comments branches commits:all
+   /github subscribe kowainik/repo reviews comments branches commits:all
    ```
 3. **Thread-based discussion.** Try to follow topic-based discussion: post some
    message to channel, reply in thread to this message without duplicating
