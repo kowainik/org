@@ -61,8 +61,11 @@ Git version control system based on GitHub is used.
 5. Name your branch as `username/issueId-short-description`. For example: `chshersh/1-describe-workflow`.
 6. You _shouldn't_ fix multiple issues in a single branch.
 7. Use [this guide](https://chris.beams.io/posts/git-commit/) for commit messages.
-8. Every commit should contain issue number in square brackets before message.
+8. Every meaningful commit should contain issue number in square brackets before message.
    * Example: `[#6] Describe basic guidelines`
+
+   Small fix commits shouldn't contain the issue number
+   * Example: `Fix the typo`
 
 #### Pull requests
 
@@ -75,6 +78,9 @@ Git version control system based on GitHub is used.
 4. Request review from at least two people in team.
 5. Pull request can be merged to `master` only if there're two approvals for this PR.
 6. Resolve all conflicts using only `git rebase` command to make history clean.
+7. If you're the second person who approves the PR you should click on the
+   [`Squash and Merge`](https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits)
+   button.
 
 ### Project structure
 
