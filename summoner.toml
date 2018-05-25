@@ -6,3 +6,5 @@ ghcVers  = ["8.0.2"]
 bscript  = false
 lib      = true
 test     = true
+github   = true
+travis   = true
