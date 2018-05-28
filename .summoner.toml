@@ -1,0 +1,23 @@
+owner    = "kowainik"
+fullName = "Kowainik"
+email    = "xrom.xkov@gmail.com"
+license  = "MPL-2.0"
+ghcVers  = ["8.0.2"]
+bscript  = false
+lib      = true
+test     = true
+github   = true
+travis   = true
+
+extensions = [ "DeriveGeneric"
+             , "GeneralizedNewtypeDeriving"
+             , "LambdaCase"
+             , "OverloadedStrings"
+             , "RecordWildCards"
+             , "ScopedTypeVariables"
+             , "TypeApplications"
+             ]
+
+[prelude]
+    package = "universum"
+    module  = "Universum"
