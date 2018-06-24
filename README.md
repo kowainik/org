@@ -95,7 +95,7 @@ Git version control system based on GitHub is used.
 3. Use PVP versioning for projects.
 
 The easiest way to create a project is to use [`summoner`](https://github.com/kowainik/summoner) 
-tool [with our own settings](https://github.com/kowainik/org/blob/master/summoner.toml).
+tool [with our own settings](https://github.com/kowainik/org/blob/master/.summoner.toml).
 
 > **TODO:** What about Windows CI?
 
