@@ -105,5 +105,5 @@ tool [with our own settings](https://github.com/kowainik/org/blob/master/.summon
 1. Use [Serokell Style guide](https://github.com/serokell/serokell-util/blob/c7e71ac4684a5bf345fd52c9656fb9cdf4e03f5d/.stylish-haskell.yaml)
    for Haskell code.
 2. Use `stylish-haskell` to format code.
-3. Use [`universum`](https://github.com/serokell/universum) custom prelude for
+3. Use [`relude`](https://github.com/kowainik/relude) custom prelude for
    applications or huge libraries.
