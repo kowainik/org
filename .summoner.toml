@@ -19,5 +19,5 @@ extensions = [ "DeriveGeneric"
              ]
 
 [prelude]
-    package = "universum"
-    module  = "Universum"
+    package = "relude"
+    module  = "Relude"
