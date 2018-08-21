@@ -66,6 +66,10 @@ Git version control system based on GitHub is used.
 
    Small fix commits shouldn't contain the issue number
    * Example: `Fix the typo`
+   
+   If you don't change source code, only documentation, then it's recommended 
+   to add `[skip ci]` tag to the end of the commit.
+   * Example: `Change README.md [skip ci]`
 
 #### Pull requests
 
