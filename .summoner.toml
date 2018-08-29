@@ -3,19 +3,23 @@ fullName = "Kowainik"
 email    = "xrom.xkov@gmail.com"
 license  = "MPL-2.0"
 ghcVers  = ["8.2.2"]
-bscript  = false
 lib      = true
 test     = true
 github   = true
 travis   = true
+stylish.url = "https://raw.githubusercontent.com/kowainik/org/master/.stylish-haskell.yaml"
 
-extensions = [ "DeriveGeneric"
+extensions = [ "ConstraintKinds"
+             , "DeriveGeneric"
              , "GeneralizedNewtypeDeriving"
              , "LambdaCase"
              , "OverloadedStrings"
              , "RecordWildCards"
              , "ScopedTypeVariables"
+             , "StandaloneDeriving"
+             , "TupleSections"
              , "TypeApplications"
+             , "ViewPatterns"
              ]
 
 [prelude]
