@@ -66,8 +66,8 @@ Git version control system based on GitHub is used.
 
    Small fix commits shouldn't contain the issue number
    * Example: `Fix the typo`
-   
-   If you don't change source code, only documentation, then it's recommended 
+
+   If you don't change source code, only documentation, then it's recommended
    to add `[skip ci]` tag to the end of the commit.
    * Example: `Change README.md [skip ci]`
 
@@ -98,16 +98,15 @@ Git version control system based on GitHub is used.
    * `.travis.yml`
 3. Use PVP versioning for projects.
 
-The easiest way to create a project is to use [`summoner`](https://github.com/kowainik/summoner) 
+The easiest way to create a project is to use [`summoner`](https://github.com/kowainik/summoner)
 tool [with our own settings](https://github.com/kowainik/org/blob/master/.summoner.toml).
 
 > **TODO:** What about Windows CI?
 
-
 ## Code style
 
-1. Use [Serokell Style guide](https://github.com/serokell/serokell-util/blob/c7e71ac4684a5bf345fd52c9656fb9cdf4e03f5d/.stylish-haskell.yaml)
-   for Haskell code.
-2. Use `stylish-haskell` to format code.
+1. Use [Kowainik Style guide](style-guide.md) for Haskell code.
+2. Use [`stylish-haskell`](https://github.com/jaspervdj/stylish-haskell)
+   with [`.stylish-haskell.yaml`](.stylish-haskell.yaml) to format code.
 3. Use [`relude`](https://github.com/kowainik/relude) custom prelude for
    applications or huge libraries.
