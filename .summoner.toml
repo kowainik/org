@@ -12,6 +12,8 @@ stylish.url = "https://raw.githubusercontent.com/kowainik/org/master/.stylish-ha
 extensions = [ "ConstraintKinds"
              , "DeriveGeneric"
              , "GeneralizedNewtypeDeriving"
+             , "InstanceSigs"
+             , "KindSignatures"
              , "LambdaCase"
              , "OverloadedStrings"
              , "RecordWildCards"
