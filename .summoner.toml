@@ -2,11 +2,12 @@ owner    = "kowainik"
 fullName = "Kowainik"
 email    = "xrom.xkov@gmail.com"
 license  = "MPL-2.0"
-ghcVers  = ["8.2.2"]
 lib      = true
 test     = true
 github   = true
 travis   = true
+
+ghcVersions = ["8.2.2"]
 stylish.url = "https://raw.githubusercontent.com/kowainik/org/master/.stylish-haskell.yaml"
 
 extensions = [ "ConstraintKinds"
