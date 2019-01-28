@@ -1,122 +1,141 @@
 # Haskell Style Guide
 
-> Haskell Style guide created and adopted by Kowainik organization.
+> Style guide used in Kowainik.
 
-## Goals
+This document is a collection of the practices gained
+by working on the commercial and free open source Haskell libraries and applications.
 
-This style guide aims to achieve the following goals:
+## Style guide goals
 
-1. Make code **easier to understand:** ideas for a solution shouldn't be hidden
+The purpose of this document is to help developers and people working with
+Haskell sources to have smoother experience while dealing with code in different
+aspects. So, this style guide tries to provide these advantages by defining the
+following goals:
+
+1. Make code **easier to understand:** the ideas for solutions should not be hidden
    behind the complex and obscure code.
-2. Make code **easier to read:** code structure should be immediately apparent
-   after looking at existing code.
+2. Make code **easier to read:** code arrangement should be immediately apparent
+   after looking at the existing code.
 3. Make code **easier to write:** developers should think about code formatting
-   layout rules as less as possible. The style guide should answer every question
-   regarding how to format a specific piece of code.
-4. Make code **easier to maintain:** style guide can change, code changes all
-   the time, and it's managed via version control systems which are sensitive
-   to massive code changes. This style guide aims to reduce the burden of
-   maintaining packages unless this conflicts with previous points.
+   rules as little as possible. The style guide should answer every question
+   concerning how to format a specific piece of code.
+4. Make code **easier to maintain:** this style guide aims to reduce the burden
+   of maintaining packages using version control systems unless this conflicts
+   with the previous points.
 
-## Main rule for every style guide
+## Main rule when working with the existing source code
 
-The general rule is to stick to the same coding style as is already used in the
-file you're editing. If you must make significant stylistic changes, commit them
-separately from functional changes, so that someone looking back through the
-change logs can easily distinguish them.
+The general rule is to stick to the same coding style that is already used in the
+file you are editing. If you must make significant style modifications, then commit them
+independently from the functional changes so that someone looking back through the
+changelog can easily separate them.
 
-## General rules
+## Indentation
 
-### Line length
+Indent the code blocks with _4 spaces_.
 
-Maximum allowed line length is _90 characters_. If your line doesn't fit into
-this limit, try to split code into smaller pieces or break long lines over
-multiple shorter lines.
-
-### Whitespaces
-
-**No trailing whitespaces** (use some tools to automatically cleanup trailing whitespaces).
-
-Surround binary operators with a single space on either side.
-
-Always add space after the comma.
-
-### Indentation
-
-Indent your code blocks with _4 spaces_.
-
-Indent `where` blocks with _2 spaces_ (and always put `where` keyword on its own line).
+Indent `where` keyword with _2 spaces_ and always put `where` keyword on its own line.
 
 ```haskell
-dropWhile :: (a -> Bool) -> [a] -> [a]
-dropWhile _ [] = []
-dropWhile p xs@(x:xs')
-    | p x       = dropWhile p xs'
-    | otherwise = xs
+showSign :: Int -> String
+showSign n
+    | n == 0    = "Zero"
+    | n < 0     = "Negative"
+    | otherwise = "Positive"
 
 greet :: IO ()
 greet = do
+    putStrLn "What is your name?"
     name <- getLine
     putStrLn $ greeting name
   where
     greeting :: String -> String
-    greeting name = "Hello, " ++ name ++ "!"
+    greeting name = "Hey " ++ name ++ "!"
 ```
 
-### Alignment
+## Line length
+
+Maximum allowed line length is _90 characters_. If your line doesn't fit into
+this limit, try to split code into smaller pieces or break long lines over
+multiple shorter ones.
+
+## Whitespaces
+
+**No trailing whitespaces** (use some tools to automatically cleanup trailing
+whitespaces).
+
+Surround binary operators with a single space on either side.
+
+## Alignment
 
 Use _comma-leading_ style for formatting module exports, lists, tuples, records, etc.
 
 ```haskell
-exceptions =
-    [ InvalidStatusCode
-    , MissingContentHeader
-    , InternalServerError
+answers :: [Maybe Int]
+answers =
+    [ Just 42
+    , Just 7
+    , Nothing
     ]
 ```
 
-Align multiple lines according to the same separator like `::`, `=>`, `->`, `,`.
+If function definition doesn't fit the line limit then align multiple lines
+according to the same separator like `::`, `=>`, `->`.
 
 ```haskell
-foo :: Num a
-    => a
-    -> (a, a)
-    -> Integer
-    -> a
+printQuestion
+    :: Show a
+    => Text  -- ^ Question text
+    -> [a]   -- ^ List of available answers
+    -> IO ()
+```
 
+Align records with every field on a separate line with leading commas.
+
+```haskell
 data Foo = Foo
     { fooBar  :: Bar
     , fooBaz  :: Baz
     , fooQuux :: Quux
-    }
+    } deriving (Eq, Show, Generic)
+      deriving anyclass (FromJSON, ToJSON)
 ```
 
-* _Indentation of a line should not depend on the length of any identifier in preceding lines._
+Align sum types with every constructor on its own line with leading `=` and `|`.
 
-Try to follow this rule inside function definition but without fanatism:
+```haskell
+data TrafficLight
+    = Red
+    | Yellow
+    | Green
+    deriving (Eq, Ord, Enum, Bounded, Show, Read)
+```
+
++ **Indentation of a line should not depend on the length of any identifier in preceding lines.**
+
+Try to follow the above rule inside function definition but without fanatism:
 
 ```haskell
 -- + Good
-foo = Foo
+createFoo = Foo
     <$> veryLongBar
     <*> veryLongBaz
 
 -- - Bad
-foo = Foo <$> veryLongBar
-          <*> veryLongBaz
+createFoo = Foo <$> veryLongBar
+                <*> veryLongBaz
 
--- - Also bad
-foo =
-    Foo  -- no need to put constructor on the separate line and have a extra line
+-- - Meh
+createFoo =
+    Foo  -- no need to put constructor on the separate line and have an extra line
     <$> veryLongBar
     <*> veryLongBaz
-
 ```
 
-Basically, it's often possible to join consequent lines without introducing
+Basically, it is often possible to join consequent lines without introducing
 alignment dependency. Try not to span multiple short lines without need.
 
-If an application must spawn multiple lines to fit within the maximum line
+If a function application must spawn multiple lines to fit within the maximum line
 length, then write one argument on each line following the head, indented by one
 level:
 
@@ -128,9 +147,9 @@ veryLongProductionName
     lastArgumentOfThisFunction
 ```
 
-### Naming
+## Naming
 
-#### Functions and variables
+### Functions and variables
 
 + **lowerCamelCase** for function and variable names.
 + **UpperCamelCase** for data types, typeclasses and constructors.
@@ -142,7 +161,7 @@ Try not to create new operators.
 (~@@^>) :: Functor f => (a -> b) -> (a -> c -> d) -> (b -> f c) -> a -> f d
 ```
 
-Don't use short names like `n`, `sk`, `f` unless types of variables are general enough.
+Do not use short names like `a`, `par`, `g` unless types of variables are general enough.
 
 ```haskell
 -- + Good
@@ -166,7 +185,7 @@ mapSelect p f g = go
         else g x : go xs
 ```
 
-Don't introduce unnecessary long names for variables.
+Do not introduce unnecessary long names for variables.
 
 ```haskell
 -- + Good
@@ -181,16 +200,16 @@ map function (firstElement:remainingList) =
     function firstElement : map function remainingList
 ```
 
-For readability reasons, don't capitalize all letters when using an
+For readability reasons, do not capitalize all letters when using an
 abbreviation as a part of a longer name. For example, write `HttpServer` instead
 of `HTTPServer`.
 
 Unicode symbols are allowed only in modules that already use unicode symbols. If
-you create unicode name, you should also create non-unicode name as an alias.
+you create unicode name, you should also create a non-unicode one as an alias.
 
-#### Data types
+### Data types
 
-Creating data types is extremely easy in Haskell. It's usually a good idea to
+Creating data types is extremely easy in Haskell. It is usually a good idea to
 introduce custom data type (enum or `newtype`) instead of using commonly used
 data type (like `Int` or `String`).
 
@@ -205,66 +224,123 @@ type State s = StateT s Identity
 type Size = Int
 ```
 
-If the data type has only one constructor, then this data type name should be same as
-constructor name (also applies to `newtype`).
+Use the data type name as the constructor name for `data` with single
+constructor and `newtype`.
 
 ```haskell
 data User = User Int String
 ```
 
-Field name for `newtype` should start with `un` or `run` prefix followed by type
-name (motivated by this
-[discussion](https://www.reddit.com/r/haskell/comments/7rl9hx/newtype_field_naming_getx_vs_runx/)).
-
-* `run` for wrappers with monadic semantic.
-* `un` for wrappers introduced for type safety.
+Field name for `newtype` must start with the `un` prefix followed by the type name.
 
 ```haskell
 newtype Size = Size { unSize :: Int }
-newtype App a = App { runApp :: ReaderT Context IO a }
+newtype App a = App { unApp :: ReaderT Context IO a }
 ```
 
-Field names for record data type should start with the full name of the data type.
+Field names for the record data type should start with the full name of the data type.
 
 ```haskell
+-- + Good
 data HealthReading = HealthReading
     { healthReadingDate        :: UTCTime
     , healthReadingMeasurement :: Double
     }
 ```
 
-### Comments
+It is acceptable to use an abbreviation for the field prefixes if the data type name is
+too long.
+
+```haskell
+-- + Acceptable
+data HealthReading = HealthReading
+    { hrDate        :: UTCTime
+    , hrMeasurement :: Double
+    }
+```
+
+## Comments
 
 Separate end-of-line comments from the code with _2 spaces_.
 
-Try to write Haddock documentation for top-level functions, function arguments
-and data type fields. For functions, the documentation should give enough
+```haskell
+newtype Measure = Measure
+    { unMeasure :: Double  -- ^ See how 2 spaces separate this comment
+    }
+```
+
+Write [Haddock documentation](https://github.com/aisamanra/haddock-cheatsheet/blob/master/haddocks.pdf)
+for the top-level functions, function arguments
+and data type fields. The documentation should give enough
 information to apply the function without looking at its definition.
 
-Use block comment style for Haddock for multiple line comments.
-
-It's allowed to align trailing Haddock comments but only if they fit the line
-length limit.
+Use block comment style (`{- |` and `-}`) for Haddock for multiple line comments.
 
 ```haskell
 -- + Good
-{- | Send a message on a socket. The socket must be in a connected
-state. Returns the number of bytes sent. Applications are
-responsible for ensuring that all data has been sent.
+{- | Example of multi-line block comment which is very long
+and doesn't fit single line.
 -}
-send
-    :: Socket      -- ^ Connected socket
-    -> ByteString  -- ^ Data to send
-    -> IO Int      -- ^ Bytes sent, doesn't exceed length of data to send
+foo :: Int -> [a] -> [a]
+
+-- + Also good
+-- | Single-line short comment.
+foo :: Int -> [a] -> [a]
+
+-- ~ Bad
+-- | Example of multi-line block comment which is very long
+-- and doesn't fit single line.
+foo :: Int -> [a] -> [a]
+```
+
+For commenting function arguments, data type constructors and their fields,
+you are allowed to use end-of-line Haddock comments if they fit line length
+limit. Otherwise, use block style comments. It is _allowed_ to align end-of-line
+comments with each other. But it is _forbidden_ to use comments of different
+styles for the function arguments, data type constructors, and fields.
+
+```haskell
+-- + Good
+{- | 'replicate' @n x@ returns list of length @n@ with @x@ as the value of
+every element. This function is lazy in its returned value.
+-}
+replicate
+    :: Int  -- ^ Length of returned list
+    -> a    -- ^ Element to populate list
+    -> [a]
 
 -- - Bad
--- | Send a message on a socket. The socket must be in a connected
--- state. Returns the number of bytes sent. Applications are
--- responsible for ensuring that all data has been sent.
-send
-    :: Socket                         -- ^ Connected socket
-    -> SendDataMessageBodyByteString  -- ^ Data to send
-    -> IO Int                         -- ^ Bytes sent, doesn't exceed length of data to send
+{- | 'replicate' @n x@ returns list of length @n@ with @x@ as the value of
+every element. This function is lazy in its returned value.
+-}
+replicate
+    :: Int  -- ^ Length of returned list
+    {- | Element to populate list -}
+    -> a
+    -> [a]
+```
+
+If possible include typeclasses laws and function usage examples into the
+documentation.
+
+```haskell
+{- | The class of semigroups (types with an associative binary operation).
+
+Instances should satisfy the associativity law:
+
+* @x '<>' (y '<>' z) = (x '<>' y) '<>' z@
+-}
+class Semigroup a where
+    (<>) :: a -> a -> a
+
+
+{- | The 'intersperse' function takes a character and places it
+between the characters of a 'Text'.
+
+>>> T.intersperse '.' "SHIELD"
+"S.H.I.E.L.D"
+-}
+intersperse :: Char -> Text -> Text
 ```
 
 ## Guideline for module formatting
@@ -272,8 +348,9 @@ send
 Allowed tools for automatic module formatting:
 
 * [`stylish-haskell`](https://github.com/jaspervdj/stylish-haskell)
-  (with according [`.stylish-haskell.yaml`](https://github.com/kowainik/org/blob/master/.stylish-haskell.yaml))
-* [`smuggler`](https://github.com/kowainik/smuggler)
+  (with according [`.stylish-haskell.yaml`](https://github.com/kowainik/org/blob/master/.stylish-haskell.yaml)):
+  for formatting import section and alignment.
+* [`smuggler`](https://github.com/kowainik/smuggler): for removing unused imports.
 
 ### {-# LANGUAGE #-}
 
@@ -289,33 +366,43 @@ max width among them.
 {-# LANGUAGE TypeApplications    #-}
 ```
 
-You can put commonly-used language extensions into `default-extensions` in
-`.cabal` file. Here is the list of extensions this style guide allows to put in
-`.cabal` file:
+You can put commonly-used language extensions into `default-extensions` in the
+`.cabal` file. Here is the list of extensions this style guide allows to put in there:
 
 ```haskell
-* ConstraintKinds
-* DeriveGeneric
-* GeneralizedNewtypeDeriving
-* LambdaCase
-* OverloadedStrings
-* RecordWildCards
-* ScopedTypeVariables
-* StandaloneDeriving
-* TupleSections
-* TypeApplications
-* ViewPatterns
+ConstraintKinds
+DeriveGeneric
+GeneralizedNewtypeDeriving
+InstanceSigs
+KindSignatures
+LambdaCase
+OverloadedStrings
+RecordWildCards
+ScopedTypeVariables
+StandaloneDeriving
+TupleSections
+TypeApplications
+ViewPatterns
 ```
 
 ### Export lists
 
-Format export lists as below:
+Use the following rules to format export section:
+
+1. **Always write** the explicit export list.
+2. Use _7 spaces_ indentation for the export list (so that bracket is below the
+   first letter in module name).
+3. You can split the export list into sections. Use Haddock to assign names to
+   these sections.
+4. Classes, data types and type aliases should be written before functions in
+   each section.
 
 ```haskell
 module Map
        ( -- * Data type
          Map
        , Key
+       , empty
 
          -- * Update
        , insert
@@ -324,22 +411,13 @@ module Map
        ) where
 ```
 
-Specifically:
-
-1. Always write the explicit export list.
-2. Use _7 spaces_ indentation for the export list (so that bracket is below the
-   first letter in module name).
-3. You can split the export list into sections.
-4. Classes, data types and type aliases should be written before functions in
-   each section.
-
 ### Imports
 
 Always use explicit import lists or qualified imports. Try to use qualified
 imports only if the import list is big enough or there are conflicts in names. This
 makes the code more robust against changes in the libraries.
 
-* __Exception:__ modules that only reexport stuff from other modules.
+* __Exception:__ modules that only reexport the whole modules.
 
 Imports should be grouped in the following order:
 
@@ -354,28 +432,30 @@ Put _2 blank lines_ after import section.
 
 The imports in each group should be sorted alphabetically by module name.
 
+```haskell
+module MyProject.Foo
+       ( Foo (..)
+       ) where
+
+import Control.Exception (catch, try)
+import Data.Traversable (for)
+
+import MyProject.Ansi (errorMessage, infoMessage)
+
+import qualified Data.Aeson as Json
+import qualified Data.Text as Text
+
+import qualified MyProject.BigModule as Big
+
+
+data Foo
+...
+```
+
 ### Data declaration
 
-Align the constructors in a data type definition. Write documentation for every
-constructor before constructor definition.
-
-```haskell
-data AppError
-    -- | Internal application error.
-    = InternalError IError
-    -- | External integrated API error.
-    | ExternalError EError
-    deriving (Show, Eq)
-```
-
-Format records as follows:
-
-```haskell
-data User = User
-    { userId   :: Int
-    , userName :: Text
-    } deriving (Show, Eq, Ord)
-```
+Refer to the [Alignment section](#alignment) to see how to format data type
+declarations.
 
 Records for data types with multiple constructors are forbidden.
 
@@ -399,6 +479,8 @@ data Foo
     | Baz Int Double Text
 ```
 
+### Deriving
+
 Type classes in the deriving section should be always surrounded by parentheses.
 Don't derive typeclass without need.
 
@@ -416,18 +498,18 @@ newtype Id a = Id { unId :: Int }
     deriving anyclass (FromJSON, ToJSON)
 ```
 
-Constructor fields should be strict, unless there's an explicit reason to make
+Constructor fields should be strict unless there is an explicit reason to make
 them lazy. This helps to avoid space leaks and gives the error instead of the warning
 when you forgot to initialize some fields.
 
 ```haskell
--- Good
+-- + Good
 data Point = Point
     { pointX :: !Double  -- ^ X coordinate
     , pointY :: !Double  -- ^ Y coordinate
     }
 
--- Bad
+-- - Bad
 data Point = Point
     { pointX :: Double  -- ^ X coordinate
     , pointY :: Double  -- ^ Y coordinate
@@ -460,22 +542,20 @@ Surround `.` after `forall` in type signatures with spaces.
 lookup :: forall a f . Typeable a => TypeRepMap f -> Maybe (f a)
 ```
 
-If function type signature is very long then place type of each argument under
+If the function type signature is very long then place type of each argument under
 its own line with respect to alignment.
 
 ```haskell
-putValueInState
+sendEmail
     :: forall env m .
-       ( MonadMeasure m
-       , MonadLog m
-       , MonadReader env m
-       , Has ServerKey env
-       , MonadIO m
+       ( MonadLog m
+       , MonadEmail m
+       , WithDb env m
        )
-    => UserState
-    -> Maybe Int
-    -> AppConfig
-    -> (Int -> m ())
+    => Email
+    -> Subject
+    -> Body
+    -> Template
     -> m ()
 ```
 
@@ -483,11 +563,11 @@ If the line with argument names is too big, then put each argument on its own li
 and separate it somehow from the body section.
 
 ```haskell
-putValueInState
-    userState
-    mValue@(Just x)
-    Config{..}        -- { must go after constructor without space
-    valueModificator
+sendEmail
+    toEmail
+    subject@(Subject subj)
+    body
+    Template{..}  -- default body variables
   = do
     <code goes here>
 ```
@@ -509,8 +589,8 @@ Put pragmas immediately following the function they apply to.
 -- | Lifted version of 'T.putStrLn'.
 putTextLn :: MonadIO m => Text -> m ()
 putTextLn = liftIO . Text.putStrLn
-{-# SPECIALIZE putTextLn :: Text -> IO () #-}
 {-# INLINE putTextLn #-}
+{-# SPECIALIZE putTextLn :: Text -> IO () #-}
 ```
 
 In case of data type definitions, you must put the pragma before
@@ -525,52 +605,71 @@ data TypeRepMap (f :: k -> Type) = TypeRepMap
     }
 ```
 
-### If-then-else clauses
+### if-then-else clauses
 
-Generally, guards and pattern matches should be preferred over _if-then-else_
-clauses, where possible. Short expressions should usually be put on a single line
-(when line length allows it).
+Prefer guards over _if-then-else_ where possible.
 
-When writing non-monadic code (i.e. when not using `do`) where guards
-and pattern matches can't be used, you can align _if-then-else_ clauses
+```haskell
+-- + Good
+showParity :: Int -> Bool
+showParity n
+    | even n    = "even"
+    | otherwise = "odd"
+
+-- - Meh
+showParity :: Int -> Bool
+showParity n =
+    if even n
+    then "even"
+    else "odd"
+```
+
+When writing monadic code in `do`-blocks where guards can not be used,
+add one indentation level before `then` and `else`:
+
+```haskell
+choose
+    :: Text  -- ^ Question text.
+    -> NonEmpty Text  -- ^ List of available options.
+    -> IO Text  -- ^ The chosen option.
+choose question choices = do
+    printQuestion question choices
+    answer <- prompt
+    if null answer
+        then pure (head choices)
+        else pure answer
+```
+
+In the code outside `do`-blocks you can align _if-then-else_ clauses
 like you would normal expressions:
 
 ```haskell
-someFunction =
-    if ...
-    then ...
-    else ...
-```
-
-Or you can align _if-then-else_ in different style inside lambdas.
-
-```haskell
-foo = bar >>= \qux -> if predicate qux
-    then doOneThing
-    else doOtherThing
-```
-
-When writing monadic code in `do`-blocks, add indentation before `then` and `else`:
-
-```haskell
-foo = do
-    qux <- bar
-    if predicate qux
-        then doOneThing
-        else doOtherThing
+shiftInts :: [Int] -> [Int]
+shiftInts = map $ \n -> if even n then n + 1 else n - 1
 ```
 
 ### Case expressions
 
-The alternatives in a `case` expression should be indented like this:
+Align the `->` arrows in the alternatives when it helps readability.
 
 ```haskell
-foobar = case something of
-    Just j  -> foo
-    Nothing -> bar
-```
+-- + Good
+firstOrDefault :: [a] -> a -> a
+firstOrDefault list def = case list of
+    []  -> def
+    x:_ -> x
 
-Align the `->` arrows when it helps readability.
+-- - Bad
+foo :: IO ()
+foo = getArgs >>= \case
+    []                      -> do
+        putStrLn "No arguments provided"
+        runWithNoArgs
+    firstArg:secondArg:rest -> do
+        putStrLn $ "The first argument is " ++ firstArg
+        putStrLn $ "The second argument is " ++ secondArg
+    _                       -> pure ()
+```
 
 Prefer `-XLambdaCase` extension when you perform pattern matching over the last
 argument of the function:
@@ -584,12 +683,23 @@ fromMaybe v = \case
 
 ### let expressions
 
+Write `let`-bindings on the new line:
+
+```haskell
+isLimitedBy :: Integer -> Natural -> Bool
+isLimitedBy n limit =
+    let intLimit = toInteger limit
+    in n <= intLimit
+```
+
 Put `let` before each variable inside a `do` block. In pure functions try to
 avoid `let`. Instead, use `where`.
 
 ## General recommendations
 
-Avoid abusing point-free style.  For example, this is hard to read:
+Try to split code into separate modules.
+
+Avoid abusing point-free style. For example, this is hard to read:
 
 ```haskell
 f = (g .) . h  -- :(
