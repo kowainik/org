@@ -533,7 +533,7 @@ All top-level functions _must_ have type signatures.
 All functions inside a `where` block _must_ have type signatures. Explicit type
 signatures help to avoid cryptic type errors.
 
-> You might need `-XScopedTypeVariables` extensions to write the polymorphic types
+> You might need the `-XScopedTypeVariables` extension to write the polymorphic types
 > of functions inside a `where` block.
 
 Surround `.` after `forall` in type signatures with spaces.
