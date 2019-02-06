@@ -13,11 +13,10 @@ following goals:
 
 1. Make code **easier to understand:**  ideas for solutions should not be hidden
    behind complex and obscure code.
-2. Make code **easier to read:** The flow of the code should be immediately apparent
-   after looking at the existing code. Names of functions & variables should be transparent and obvious. 
-
+2. Make code **easier to read:** code arrangement should be immediately apparent
+   after looking at the existing code. Names of functions & variables should be transparent and obvious.
 3. Make code **easier to write:** developers should think about code formatting
-   rules as little as possible. The style guide should answer any query pertaining to 
+   rules as little as possible. The style guide should answer any query pertaining to
    the formatting of a specific piece of code.
 4. Make code **easier to maintain:** this style guide aims to reduce the burden
    of maintaining packages using version control systems unless this conflicts
@@ -210,8 +209,8 @@ you create a unicode name, you should also create a non-unicode one as an alias.
 ### Data types
 
 Creating data types is extremely easy in Haskell. It is usually a good idea to
-introduce a custom data type (enum or `newtype`) instead of using a primitive
-data type (like `Int` or `String`).
+introduce a custom data type (enum or `newtype`) instead of using a commonly used
+data type (like `Int`, `String`, `Set Text`, etc.).
 
 `type` aliases are allowed only for specializing general types:
 
@@ -500,7 +499,7 @@ newtype Id a = Id { unId :: Int }
 
 Constructor fields should be strict, unless there is an explicit reason to make
 them lazy. This helps to avoid space leaks and gives you an error instead of a warning
-incase you forget to initialize some fields.
+in case you forget to initialize some fields.
 
 ```haskell
 -- + Good
