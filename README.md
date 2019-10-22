@@ -93,7 +93,6 @@ Git version control system based on GitHub is used.
 2. Every project should contain the following files in addition to code:
    * README.md
    * CHANGES.md
-   * CONTRIBUTING.md
    * `.stylish-haskell.yaml`
    * `.travis.yml`
 3. Use PVP versioning for projects.

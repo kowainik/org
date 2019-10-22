@@ -9,7 +9,6 @@ travis   = true
 
 ghcVersions = ["8.2.2", "8.4.4"]
 stylish.url = "https://raw.githubusercontent.com/kowainik/org/master/.stylish-haskell.yaml"
-contributing.url = "https://raw.githubusercontent.com/kowainik/org/master/CONTRIBUTING.md"
 
 extensions = [ "ConstraintKinds"
              , "DeriveGeneric"
