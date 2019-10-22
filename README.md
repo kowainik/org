@@ -1,42 +1,10 @@
 # org
 
-This repository contains company-wide guidelines on writing code and organizing
-workflow. If Kowainik member doesn't know how some part of his/her work should
-be done he/she should refer to this guide. If some part of the workflow is not
-clear from this document — feel free to open an issue to this repository. But, of course,
-everyone should read this README first.
+This repository contains organization-wide guidelines on the processes within Kowainik.
 
-## Communication
+## Communications
 
-Slack messenger is currently used as primary tool for communication (unless
-better options discovered). Workspace:
-
-```
-kowainik.slack.com
-```
-
-It's better to share ideas and insights under relevant issues for projects but
-if there's no such issue or such discussion is rather informal, Slack can be
-used for communication between team members. Also it uses integration with
-different useful applications.
-
-### Slack
-
-Below is set of general rules for communication in slack:
-
-1. **NO PRIVATE CHANNELS.**
-2. **Project-based discussion.** Every repository `kowainik/repo` should have two channels in Slack:
-   1. #repo
-   2. #repo-apps
-
-   If you want to add GitHub integration for this repo you need to type the following command in #repo-apps channel
-   ```
-   /github subscribe kowainik/repo reviews comments branches commits:all
-   ```
-3. **Thread-based discussion.** Try to follow topic-based discussion: post some
-   message to channel, reply in thread to this message without duplicating
-   messages to channel.
-4. **Channel topics.** If this is a project channel then topic should contain link to project sources.
+We can be contacted by email xrom.xkov@gmail.com
 
 ## Workflow
 
