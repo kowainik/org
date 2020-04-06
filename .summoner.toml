@@ -25,6 +25,7 @@ files =
 
 extensions = [ "ConstraintKinds"
              , "DeriveGeneric"
+             , "DerivingStrategies"
              , "GeneralizedNewtypeDeriving"
              , "InstanceSigs"
              , "KindSignatures"
