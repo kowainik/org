@@ -1,4 +1,4 @@
-# This config is supported by summoner-1.4.0.0
+# This config is supported by summoner-2.0.0.0
 owner    = "kowainik"
 fullName = "Kowainik"
 email    = "xrom.xkov@gmail.com"
@@ -6,7 +6,11 @@ license  = "MPL-2.0"
 lib      = true
 test     = true
 github   = true
-travis   = true
+
+# CI integrations
+githubActions = true
+travis        = true
+appveyor      = true
 
 ghcVersions = ["8.4.4", "8.6.5"]
 
