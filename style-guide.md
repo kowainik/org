@@ -16,8 +16,7 @@ following goals:
 2. Make code **easier to read:** code arrangement should be immediately apparent
    after looking at the existing code. Names of functions & variables should be transparent and obvious.
 3. Make code **easier to write:** developers should think about code formatting
-   rules as little as possible. The style guide should answer any query pertaining to
-   the formatting of a specific piece of code.
+   rules as little as possible.
 4. Make code **easier to maintain:** this style guide aims to reduce the burden
    of maintaining packages using version control systems unless this conflicts
    with the previous points.
@@ -96,7 +95,7 @@ data Foo = Foo
     { fooBar  :: Bar
     , fooBaz  :: Baz
     , fooQuux :: Quux
-    } deriving (Eq, Show, Generic)
+    } deriving stock (Eq, Show, Generic)
       deriving anyclass (FromJSON, ToJSON)
 ```
 
@@ -107,7 +106,7 @@ data TrafficLight
     = Red
     | Yellow
     | Green
-    deriving (Eq, Ord, Enum, Bounded, Show, Read)
+    deriving stock (Eq, Ord, Enum, Bounded, Show, Read)
 ```
 
 + **The indentation of a line should not depend on the length of any identifier in preceding lines.**
@@ -233,8 +232,13 @@ data User = User Int String
 The field name for a `newtype` must be prefixed by `un` followed by the type name.
 
 ```haskell
-newtype Size = Size { unSize :: Int }
-newtype App a = App { unApp :: ReaderT Context IO a }
+newtype Size = Size
+    { unSize :: Int
+    }
+
+newtype App a = App
+    { unApp :: ReaderT Context IO a
+    }
 ```
 
 Field names for the record data type should start with the full name of the data type.
@@ -273,7 +277,7 @@ for the top-level functions, function arguments
 and data type fields. The documentation should give enough
 information to apply the function without looking at its definition.
 
-Use block comment style (`{- |` and `-}`) for Haddock for multiple line comments.
+Use block comment style (`{- |` and `-}`) for Haddock in multiple line comments.
 
 ```haskell
 -- + Good
@@ -296,7 +300,7 @@ For commenting function arguments, data type constructors and their fields,
 you are allowed to use end-of-line Haddock comments if they fit line length
 limit. Otherwise, use block style comments. It is _allowed_ to align end-of-line
 comments with each other. But it is _forbidden_ to use comments of different
-styles for the function arguments, data type constructors, and fields.
+types (pre or post) for the function arguments, data type constructors, and fields.
 
 ```haskell
 -- + Good
@@ -371,6 +375,7 @@ You can put commonly-used language extensions into `default-extensions` in the
 ```haskell
 ConstraintKinds
 DeriveGeneric
+DerivingStrategies
 GeneralizedNewtypeDeriving
 InstanceSigs
 KindSignatures
@@ -389,8 +394,7 @@ ViewPatterns
 Use the following rules to format the export section:
 
 1. **Always write** an explicit export list.
-2. Indent the export list by _7 spaces_ (so that the bracket is below the
-   first letter of the module name).
+2. Indent the export list by _4 spaces_.
 3. You can split the export list into sections. Use Haddock to assign names to
    these sections.
 4. Classes, data types and type aliases should be written before functions in
@@ -398,16 +402,16 @@ Use the following rules to format the export section:
 
 ```haskell
 module Map
-       ( -- * Data type
-         Map
-       , Key
-       , empty
+    ( -- * Data type
+      Map
+    , Key
+    , empty
 
-         -- * Update
-       , insert
-       , insertWith
-       , alter
-       ) where
+      -- * Update
+    , insert
+    , insertWith
+    , alter
+    ) where
 ```
 
 ### Imports
@@ -433,8 +437,8 @@ The imports in each group should be sorted alphabetically by module name.
 
 ```haskell
 module MyProject.Foo
-       ( Foo (..)
-       ) where
+    ( Foo (..)
+    ) where
 
 import Control.Exception (catch, try)
 import Data.Traversable (for)
@@ -502,21 +506,26 @@ data Settings = Settings
 
 ### Deriving
 
-Type classes in the deriving section should always be surrounded by parentheses.
-Don't derive typeclasses unnecessarily.
-
+Always specify a deriving strategy for each deriving clause.
 Use [`-XDerivingStrategies`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-strategies)
-extension for `newtype`s to explicitly specify the way you want to derive type classes:
+to explicitly specify the way you want to derive type classes.
+
+Type classes in the deriving section should always be surrounded by parentheses.
+
+Derive `Show` and `Eq` instances for all introduced data types where possible.
+
+For `newtype`s prefer to use __newtype__ strategy of deriving.
 
 ```haskell
 {-# LANGUAGE DeriveAnyClass             #-}
 {-# LANGUAGE DerivingStrategies         #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-newtype Id a = Id { unId :: Int }
-    deriving stock    (Generic)
-    deriving newtype  (Eq, Ord, Show, Hashable)
-    deriving anyclass (FromJSON, ToJSON)
+newtype Id a = Id
+    { unId :: Int
+    } deriving stock    (Generic)
+      deriving newtype  (Eq, Ord, Show, Hashable)
+      deriving anyclass (FromJSON, ToJSON)
 ```
 
 ### Function declaration
@@ -617,6 +626,16 @@ showParity n =
     else "odd"
 ```
 
+Align `if`, `then` and `else` lines with the same level of indentation:
+
+```haskell
+digitOrNumber :: Int -> Text
+digitOrNumber i =
+    if i >= 0 || i < 10
+    then "This is a digit"
+    else "This is a number"
+```
+
 When writing monadic code in `do`-blocks where guards cannot be used,
 add one indentation level before `then` and `else`:
 
@@ -710,15 +729,24 @@ Prefer `pure` over `return`.
 Code should be compilable with the following ghc options without warnings:
 
 * `-Wall`
-* `-Wincomplete-uni-patterns`
-* `-Wincomplete-record-updates`
 * `-Wcompat`
 * `-Widentities`
+* `-Wincomplete-uni-patterns`
+* `-Wincomplete-record-updates`
 * `-Wredundant-constraints`
 * `-Wmissing-export-lists`
 * `-Wpartial-fields`
+* `-Wmissing-deriving-strategies`
+* `-Wunused-packages`
 
 Enable `-fhide-source-paths` and `-freverse-errors` for cleaner compiler output.
+
+Enable `.hie` files creation for your projects in the `.hie/` directory:
+
+```haskell
+ghc-options:  -fwrite-ide-info
+              -hiedir=.hie
+```
 
 Use `-XApplicativeDo` in combination with `-XRecordWildCards` to prevent
 position-sensitive errors where possible.
