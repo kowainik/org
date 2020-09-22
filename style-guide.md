@@ -35,11 +35,11 @@ Indent code blocks with _4 spaces_.
 Indent `where` keywords with _2 spaces_ and always put a `where` keyword on a new line.
 
 ```haskell
-showSign :: Int -> String
-showSign n
-    | n == 0    = "Zero"
-    | n < 0     = "Negative"
-    | otherwise = "Positive"
+showDouble :: Double -> String
+showDouble n
+    | isNaN n      = "NaN"
+    | isInfinite n = "Infinity"
+    | otherwise    = show n
 
 greet :: IO ()
 greet = do
@@ -106,10 +106,10 @@ data TrafficLight
     = Red
     | Yellow
     | Green
-    deriving stock (Eq, Ord, Enum, Bounded, Show, Read)
+    deriving stock (Show, Read, Eq, Ord, Enum, Bounded, Ix)
 ```
 
-+ **The indentation of a line should not depend on the length of any identifier in preceding lines.**
+> **The indentation of a line should not depend on the length of any identifier in preceding lines.**
 
 Try to follow the above rule inside function definitions but without fanatism:
 
@@ -226,7 +226,10 @@ Use the data type name as the constructor name for `data` with single
 constructor and `newtype`.
 
 ```haskell
-data User = User Int String
+data User = User
+    { userId   :: Int
+    , userName :: String
+    }
 ```
 
 The field name for a `newtype` must be prefixed by `un` followed by the type name.
@@ -348,12 +351,11 @@ intersperse :: Char -> Text -> Text
 
 ## Guideline for module formatting
 
-Allowed tools for automatic module formatting:
+Use these tools for automatic module formatting:
 
 * [`stylish-haskell`](https://github.com/jaspervdj/stylish-haskell)
   (with a relevant [`.stylish-haskell.yaml`](https://github.com/kowainik/org/blob/master/.stylish-haskell.yaml)):
   for formatting the import section and for alignment.
-* [`smuggler`](https://github.com/kowainik/smuggler): for removing unused imports.
 
 ### {-# LANGUAGE #-}
 
@@ -368,6 +370,8 @@ max width among them.
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications    #-}
 ```
+
+### Default extensions
 
 You can put commonly-used language extensions into `default-extensions` in the
 `.cabal` file. Here is the list of extensions this style guide allows one to put in there:
@@ -416,11 +420,34 @@ module Map
 
 ### Imports
 
-Always use explicit import lists or qualified imports. Use qualified
-imports only if the import list is big enough or there are conflicts in names. This
-makes the code more robust against changes in dependent libraries.
+Always use **explicit import lists** or **qualified imports**.
 
-* __Exception:__ modules that only reexport other entire modules.
+> __Exception:__ modules that only reexport other entire modules.
+
+Use your judgement to choose between explicit import lists or
+qualified imports. However, qualified imports are recommended in the
+following situations:
+
+* Name conflicts
+* Long export lists
+* A library is designed for qualified imports, e.g. `tomland`
+
+This import policy makes the code more maintainable and robust against
+changes in dependent libraries.
+
+Choose the reasonable names for `qualified` imports:
+
+```haskell
+-- + Good
+import qualified Data.Text as Text
+import qualified Data.ByteString as BS
+import qualified Toml
+
+-- - Bad
+import qualified GitHub as C
+import qualified App.Server as Srv
+import qualified App.Service as Svc
+```
 
 Imports should be grouped in the following order:
 
@@ -473,10 +500,18 @@ data Foo
     = FooBar Bar
     | FooBaz Baz
 
-data Bar = Bar { bar1 :: Int, bar2 :: Double }
-data Baz = Baz { baz1 :: Int, baz2 :: Double, baz3 :: Text }
+data Bar = Bar
+    { bar1 :: Int
+    , bar2 :: Double
+    }
 
--- + Also good
+data Baz = Baz
+    { baz1 :: Int
+    , baz2 :: Double
+    , baz3 :: Text
+    }
+
+-- + Also acceptable
 data Foo
     = Bar Int Double
     | Baz Int Double Text
@@ -504,10 +539,14 @@ data Settings = Settings
     }
 ```
 
+For modules with many data types it is acceptable to enable the
+[StrictData](https://downloads.haskell.org/ghc/latest/docs/html/users_guide/glasgow_exts.html#strict-by-default-data-types)
+extension.
+
 ### Deriving
 
 Always specify a deriving strategy for each deriving clause.
-Use [`-XDerivingStrategies`](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#deriving-strategies)
+Use [DerivingStrategies](https://kowainik.github.io/posts/deriving)
 to explicitly specify the way you want to derive type classes.
 
 Type classes in the deriving section should always be surrounded by parentheses.
@@ -521,10 +560,11 @@ For `newtype`s prefer to use __newtype__ strategy of deriving.
 {-# LANGUAGE DerivingStrategies         #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
+
 newtype Id a = Id
     { unId :: Int
-    } deriving stock    (Generic)
-      deriving newtype  (Eq, Ord, Show, Hashable)
+    } deriving stock    (Show, Generic)
+      deriving newtype  (Eq, Ord, Hashable)
       deriving anyclass (FromJSON, ToJSON)
 ```
 
@@ -549,8 +589,8 @@ its own line with respect to alignment.
 
 ```haskell
 sendEmail
-    :: forall env m .
-       ( MonadLog m
+    :: forall env m
+    .  ( MonadLog m
        , MonadEmail m
        , WithDb env m
        )
@@ -631,7 +671,7 @@ Align `if`, `then` and `else` lines with the same level of indentation:
 ```haskell
 digitOrNumber :: Int -> Text
 digitOrNumber i =
-    if i >= 0 || i < 10
+    if i >= 0 && i < 10
     then "This is a digit"
     else "This is a number"
 ```
@@ -726,6 +766,11 @@ foo = (length . ) . replicate
 
 Prefer `pure` over `return`.
 
+Use `-XApplicativeDo` in combination with `-XRecordWildCards` to prevent
+position-sensitive errors where possible.
+
+## GHC options
+
 Code should be compilable with the following ghc options without warnings:
 
 * `-Wall`
@@ -747,6 +792,3 @@ Enable `.hie` files creation for your projects in the `.hie/` directory:
 ghc-options:  -fwrite-ide-info
               -hiedir=.hie
 ```
-
-Use `-XApplicativeDo` in combination with `-XRecordWildCards` to prevent
-position-sensitive errors where possible.
