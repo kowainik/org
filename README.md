@@ -4,15 +4,17 @@ This repository contains organization-wide guidelines on the processes within Ko
 
 ## Communications
 
-We can be contacted by email xrom.xkov@gmail.com
+We can be contacted by email xrom.xkov@gmail.com.
+
+You can also subscribe to our news in
+[Twitter](https://twitter.com/kowainik) or
+[Telegram](https://t.me/kowainik).
 
 ## Workflow
 
 ### Version control system
 
 Git version control system based on GitHub is used.
-
-> TODO: experiment with Pijul at some moment in future.
 
 #### Issues and branches
 
@@ -24,8 +26,8 @@ Git version control system based on GitHub is used.
    to do the thing — discuss with somebody under issue comments section how to
    do this. In perfect case scenario each issue should contain some plan how to
    do this issue.
-3. `master` branch should be stable, always compilable and working.
-4. Do your work for some issue under separate branch forked from `master` branch.
+3. The main branch should be stable, always compilable and working.
+4. Do your work for some issue under separate branch checkout from the main branch.
 5. Name your branch as `username/issueId-short-description`. For example: `chshersh/1-describe-workflow`.
 6. You _shouldn't_ fix multiple issues in a single branch.
 7. Use [this guide](https://chris.beams.io/posts/git-commit/) for commit messages.
@@ -48,7 +50,7 @@ Git version control system based on GitHub is used.
 2. Add `wip` label to your PR if work is not finished.
 3. Add issue number at the title of PR in square brackets (just like in commit messages).
 4. Request review from at least two people in team.
-5. Pull request can be merged to `master` only if there're two approvals for this PR.
+5. Pull request can be merged to the main branch only if there're two approvals for this PR.
 6. Resolve all conflicts using only `git rebase` command to make history clean.
 7. If you're the second person who approves the PR you should click on the
    [`Squash and Merge`](https://help.github.com/articles/about-pull-request-merges/#squash-and-merge-your-pull-request-commits)
@@ -56,23 +58,22 @@ Git version control system based on GitHub is used.
 
 ### Project structure
 
-1. Use `cabal` build tool with `cabal new-build` or `stack` as a main build
-   tool. But it's desired to support both of them on CI.
+1. You can use locally `cabal` or `stack` as your main build tool. But
+   it's desired to support both of them on CI.
 2. Every project should contain the following files in addition to code:
    * README.md
-   * CHANGES.md
+   * CHANGELOG.md
    * `.stylish-haskell.yaml`
-   * `.travis.yml`
+   * `.github/CODEOWNERS.md`
+   * `.github/workflows/ci.yml` (GitHub Actions CI)
 3. Use PVP versioning for projects.
 
-The easiest way to create a project is to use [`summoner`](https://github.com/kowainik/summoner)
-tool [with our own settings](https://github.com/kowainik/org/blob/master/.summoner.toml).
-
-> **TODO:** What about Windows CI?
+The easiest way to create a project is to use [Summoner](https://github.com/kowainik/summoner)
+tool [with our own settings](https://github.com/kowainik/org/blob/main/.summoner.toml).
 
 ## Code style
 
-1. Use [Kowainik Style guide](style-guide.md) for Haskell code.
+1. Use [Kowainik Style guide](https://kowainik.github.io/posts/2019-02-06-style-guide) for Haskell code.
 2. Use [`stylish-haskell`](https://github.com/jaspervdj/stylish-haskell)
    with [`.stylish-haskell.yaml`](.stylish-haskell.yaml) to format code.
 3. Use [`relude`](https://github.com/kowainik/relude) custom prelude for
