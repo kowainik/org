@@ -24,6 +24,9 @@ files =
     , { path = ".github/dependabot.yml"
       , url  = "https://raw.githubusercontent.com/kowainik/org/main/.github/dependabot.yml"
       }
+    , { path = ".headroom.yaml"
+      , url  = "https://raw.githubusercontent.com/kowainik/org/main/.headroom.yaml"
+      }
     ]
 
 extensions = [ "ConstraintKinds"
